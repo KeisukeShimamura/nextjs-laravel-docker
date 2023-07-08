@@ -44,3 +44,19 @@ services:
     # srcディレクトリ内のファイルをコンテナ内の~/var/www/html配下にマウント
     volumes:
       - "./container/db/data:/var/lib/mysql"
+  # Node.jsサーバー
+  node:
+    # コンテナ名
+    container_name: "node"
+    # コンテナの作成に使用するDockerfileのパス
+    build:
+      context: .
+      dockerfile: "./container/node/Dockerfile"
+    # ホスト側のポート:コンテナ側のポートを指定
+    ports:
+      - "3000:3000"
+    # srcディレクトリ内のファイルをコンテナ内の~/app配下にマウント
+    volumes:
+      - ./src/frontend:/app
+    command: sh -c "npm run dev"
+    tty: true
